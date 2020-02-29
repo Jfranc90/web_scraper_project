@@ -21,15 +21,15 @@ for i in soup.findAll('div', attrs = {"class":"jobsearch-SerpJobCard unifiedRow 
     title = i.find('a', attrs = {'class':'jobtitle turnstileLink'}).text.replace("\n","")
     company = i.find('span', attrs = {'class':'company'}).text.replace("\n","")
     #salary = i.find('div', attrs = {'class':'salarySnippet holisticSalary'}).text.replace("\n","")
-    loc =  i.find('div', attrs = {'class':'sjcl'}).text.replace('\n',"")
+    #loc =  i.find('div', attrs = {'class':'sjcl'}).text.replace('\n',"")
     #company = companySpan
     companies.append(company)
     jobTitles.append(title)
     #monies.append(salary)
-    location.append(loc)
+    #location.append(loc)
 
     
 print(companies)
 print(jobTitles)
 #print(monies)
-print(location)
+#print(location)
