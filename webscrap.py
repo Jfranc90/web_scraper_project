@@ -30,6 +30,7 @@ def scrapeTheWeb(titleJob):
         company = i.find('span', attrs = {'class':'company'}).text.replace("\n","")
         companies.append(company)
         jobTitles.append(title)
+        
     for link in soup.findAll('a' ,target = "_blank"):
         jobLink = link.get("href")
         jobLinks.append(jobLink)
