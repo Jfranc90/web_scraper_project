@@ -8,6 +8,7 @@ companies = []
 jobTitles = []
 location = []
 monies = []
+urls = []
 
 userJob = input("What type of job are you looking for? ")
 driver = webdriver.Chrome(ChromeDriverManager().install())
@@ -20,12 +21,10 @@ soup = BeautifulSoup(content,"html.parser")
 for i in soup.findAll('div', attrs = {"class":"jobsearch-SerpJobCard unifiedRow row result clickcard"}):
     title = i.find('a', attrs = {'class':'jobtitle turnstileLink'}).text.replace("\n","")
     company = i.find('span', attrs = {'class':'company'}).text.replace("\n","")
-    #salary = i.find('div', attrs = {'class':'salarySnippet holisticSalary'}).text.replace("\n","")
-    #loc =  i.find('div', attrs = {'class':'sjcl'}).text.replace('\n',"")
-    #company = companySpan
+    loco = i.find('div', attrs = {"class":"location accessible-contrast-color-location"}).text.replace("\n","")
     companies.append(company)
     jobTitles.append(title)
-    #monies.append(salary)
+    #monies.append(salary)5
     #location.append(loc)
 
     
