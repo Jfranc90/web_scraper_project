@@ -4,31 +4,38 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import sele, url
 
-companies = []
-jobTitles = []
-location = []
-monies = []
-urls = []
+def clean(linksList):
+    newList  = []
+    for i in linksList:
+        if("/pagead/" in i):
+            linko = "www.indeed.com" + i
+            newList.append(linko)
+    return newList
 
-userJob = input("What type of job are you looking for? ")
-driver = webdriver.Chrome(ChromeDriverManager().install())
-sele.searchJob(userJob,driver)
-searchURL = url.makeUrl(userJob,"Los Angeles")
-driver.get(searchURL)
-driver.implicitly_wait(20)
-content = driver.page_source
-soup = BeautifulSoup(content,"html.parser")
-for i in soup.findAll('div', attrs = {"class":"jobsearch-SerpJobCard unifiedRow row result clickcard"}):
-    title = i.find('a', attrs = {'class':'jobtitle turnstileLink'}).text.replace("\n","")
-    company = i.find('span', attrs = {'class':'company'}).text.replace("\n","")
-    loco = i.find('div', attrs = {"class":"location accessible-contrast-color-location"}).text.replace("\n","")
-    companies.append(company)
-    jobTitles.append(title)
-    #monies.append(salary)5
-    #location.append(loc)
 
-    
-print(companies)
-print(jobTitles)
-#print(monies)
-#print(location)
+def scrapeTheWeb(titleJob):
+    companies = []
+    jobTitles = []
+    jobLinks = []
+
+    driver = webdriver.Chrome(ChromeDriverManager().install())
+    sele.searchJob(titleJob,driver)
+    searchURL = url.makeUrl(titleJob,"Los Angeles")
+    driver.get(searchURL)
+    driver.implicitly_wait(20)
+    content = driver.page_source
+    soup = BeautifulSoup(content,"html.parser")
+    for i in soup.findAll('div', attrs = {"class":"jobsearch-SerpJobCard unifiedRow row result clickcard"}):
+        title = i.find('a', attrs = {'class':'jobtitle turnstileLink'}).text.replace("\n","")
+        company = i.find('span', attrs = {'class':'company'}).text.replace("\n","")
+        companies.append(company)
+        jobTitles.append(title)
+    for link in soup.findAll('a' ,target = "_blank"):
+        jobLink = link.get("href")
+        jobLinks.append(jobLink)
+
+    newLinks = clean(jobLinks)
+
+    print(newLinks)
+    print(companies)
+    print(jobTitles)

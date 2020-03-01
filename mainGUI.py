@@ -1,8 +1,8 @@
 from tkinter import *
-
+import webscrap
 def clicked():
     userJob = textBox.get()
-    
+    webscrap.scrapeTheWeb(userJob)
 
 window = Tk()
 window.title("FACK")
