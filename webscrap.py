@@ -28,15 +28,25 @@ def scrapeTheWeb(titleJob):
     for i in soup.findAll('div', attrs = {"class":"jobsearch-SerpJobCard unifiedRow row result clickcard"}):
         title = i.find('a', attrs = {'class':'jobtitle turnstileLink'}).text.replace("\n","")
         company = i.find('span', attrs = {'class':'company'}).text.replace("\n","")
+        #location = i.find('div', attrs = {"class" : "location accessible-contrast-color-location"}).text.replace("\n","")
         companies.append(company)
         jobTitles.append(title)
-        
+
     for link in soup.findAll('a' ,target = "_blank"):
         jobLink = link.get("href")
         jobLinks.append(jobLink)
 
     newLinks = clean(jobLinks)
 
-    print(newLinks)
-    print(companies)
-    print(jobTitles)
+    #print(newLinks)
+    #print(companies)
+    #print(jobTitles)
+    driver.quit()
+    coSeries = pd.Series(companies, name = "Company")
+    jobSeries = pd.Series(jobTitles, name = "Job Title")
+    urlSeries = pd.Series(newLinks, name = "URL Link")
+    df = pd.concat([coSeries,jobSeries,urlSeries], axis= 1)
+    #df = pd.DataFrame({"Company Name":companies,"Job Title":jobTitles,"URL link to Apply":newLinks})
+    csvName = "Job_CSV_Files\ " + titleJob + ".csv"
+    df.to_csv(csvName, index=False, encoding="utf-8")
+    

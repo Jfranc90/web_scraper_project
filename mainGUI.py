@@ -5,7 +5,7 @@ def clicked():
     webscrap.scrapeTheWeb(userJob)
 
 window = Tk()
-window.title("FACK")
+window.title("Web_Scraper V1.0")
 window.geometry("350x200")
 window.configure(background = "orange")
 
