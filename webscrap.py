@@ -3,6 +3,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 import pandas as pd
 import sele, url
+import os
 
 def clean(linksList):
     newList  = []
@@ -46,6 +47,19 @@ def scrapeTheWeb(titleJob):
     jobSeries = pd.Series(jobTitles, name = "Job Title")
     urlSeries = pd.Series(newLinks, name = "URL Link")
     df = pd.concat([coSeries,jobSeries,urlSeries], axis= 1)
-    csvName = "Job_CSV_Files\ " + titleJob + ".csv"
+
+
+# define the name of the directory to be created
+    path = "/Job_CSV_Files"
+
+    try:
+        os.mkdir(path)
+    except OSError:
+        print ("Creation of the directory %s failed" % path)
+    #else:
+       # print ("Successfully created the directory %s " % path)
+
+    csvName = "/Job_CSV_Files " + titleJob + ".csv"
     df.to_csv(csvName, index=False, encoding="utf-8")
+
     
